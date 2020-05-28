@@ -7,7 +7,7 @@ import './DetailForm.scss';
 interface IProps {
   value: any;
   dataSource: Property[];
-  onChange?: (v: string[], options: Option[]) => void;
+  onChange?: (v: any, options: any) => void;
   onFocus?: () => any;
   notFoundContent: any;
   disabled: boolean;
@@ -29,24 +29,24 @@ const TagSelect: React.FC<IProps> = ({
       const tagsValue: string[] = R.map(R.prop('propertyValueId'), value);
       setValue(tagsValue);
     }
-    if(value && dataSource.length === 0){
-      const list: Option[] = R.map((item: Property) => {
-        return {
-          value: item.propertyValueId,
-          label: item.propertyValue
-        }
-      }, value);
-      setList(list)
-    }
-    if(dataSource.length > 0) {
-      const list: Option[] = R.map((item: Property) => {
-        return {
-          value: item.propertyValueId,
-          label: item.propertyValue
-        }
-      }, dataSource);
-      setList(list);
-    }
+    // if(value && dataSource.length === 0){
+    //   const list: Option[] = R.map((item: Property) => {
+    //     return {
+    //       value: item.propertyValueId,
+    //       label: item.propertyValue
+    //     }
+    //   }, value);
+    //   setList(list)
+    // }
+    // if(dataSource.length > 0) {
+    //   const list: Option[] = R.map((item: Property) => {
+    //     return {
+    //       value: item.propertyValueId,
+    //       label: item.propertyValue
+    //     }
+    //   }, dataSource);
+    //   setList(list);
+    // }
   }
 
   useEffect(() => {

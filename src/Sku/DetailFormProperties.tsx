@@ -23,10 +23,10 @@ const DetailFormProperties: React.FC<IProps> = ({field, remove, onChange, dataSo
   const {
     isFetching,
     properties,
-    fetchPropertyList,
+    fetchPropertyNameList,
     fetchPropertyValusList,
     updatePropertiesByProperty,
-    updatePropertiesByPropertyValues,
+    // updatePropertiesByPropertyValues,
     savePropertyId,
     savePropertyValue,
     updateProperties,
@@ -35,50 +35,51 @@ const DetailFormProperties: React.FC<IProps> = ({field, remove, onChange, dataSo
 
 
   const changePropertyId = (v: Option) => {
+    debugger;
     const res = updatePropertiesByProperty({value: v.value, label: v.children})(field.name);
-    if(!res) {
-      message.error('不要重复规格');
-    } else if(R.type(res) === 'String') {
-      addPropertyTopropertyList(res);
-    } else {
-      updateProperties();
-    }
+    // if(!res) {
+    //   message.error('不要重复规格');
+    // } else if(R.type(res) === 'String') {
+    //   addPropertyTopropertyList(res);
+    // } else {
+    //   updateProperties();
+    // }
   }
 
   const addPropertyTopropertyList = async (propertyName: string) => {
     const res: any = await savePropertyId(propertyName);
-    const {propertyId} = res;
-    const property: Option = {value: propertyId, label: propertyName};
-    const result = updatePropertiesByProperty(property)(field.name);
-    if(result) {
-      updateProperties();
-      propertyList.push(property);
-      setPropertyList([...propertyList]);
-      setProperty({
-        propertyId,
-        propertyName
-      });
-    }
+    // const {propertyId} = res;
+    // const property: Option = {value: propertyId, label: propertyName};
+    // const result = updatePropertiesByProperty(property)(field.name);
+    // if(result) {
+    //   updateProperties();
+    //   propertyList.push(property);
+    //   setPropertyList([...propertyList]);
+    //   setProperty({
+    //     propertyId,
+    //     propertyName
+    //   });
+    // }
 
   }
 
   const addPropertyValuesTopropertyValuesList = async (value: string) => {
-    const res: any = await savePropertyValue({
-      propertyValue	: value,
-      propertyId: property.propertyId
-    });
-    const {propertyValueId, propertyValue} = res;
-    const item :Property = {
-      propertyValueId,
-      propertyValue
-    }
+    // const res: any = await savePropertyValue({
+    //   propertyValue	: value,
+    //   propertyId: property.propertyId
+    // });
+    // const {propertyValueId, propertyValue} = res;
+    // const item :Property = {
+    //   propertyValueId,
+    //   propertyValue
+    // }
 
-    propertyValuesList.push(item);
-    setPropertyValuesList([...propertyValuesList]);
-    tags.push(item);
-    setTags([...tags]);
-    updatePropertiesByPropertyValues(tags)(field.name);
-    updateProperties();
+    // propertyValuesList.push(item);
+    // setPropertyValuesList([...propertyValuesList]);
+    // tags.push(item);
+    // setTags([...tags]);
+    // updatePropertiesByPropertyValues(tags)(field.name);
+    // updateProperties();
   }
 
   const isEmpty = (list: unknown[]) => {
@@ -86,23 +87,22 @@ const DetailFormProperties: React.FC<IProps> = ({field, remove, onChange, dataSo
   }
 
   const changePropertyValues = (v: any[], options: Option[]) => {
-    if(isEmpty(options)) {
-      addPropertyValuesTopropertyValuesList(R.last(v));
-    }
-    const values = R.map(item => {
-      return {
-        propertyValueId: item.value,
-        propertyValue: item.children
-      }
-    }, options);
-    updatePropertiesByPropertyValues(values)(field.name);
-    updateProperties();
+    // if(isEmpty(options)) {
+    //   addPropertyValuesTopropertyValuesList(R.last(v));
+    // }
+    // const values = R.map(item => {
+    //   return {
+    //     propertyValueId: item.value,
+    //     propertyValue: item.children
+    //   }
+    // }, options);
+    // updatePropertiesByPropertyValues(values)(field.name);
+    // updateProperties();
   }
 
   const onFocusProperty = async () => {
     if(propertyList.length === 0){
-      const propertyList = await fetchPropertyList();
-      setPropertyList(propertyList);
+      fetchPropertyNameList();
     }
   }
 

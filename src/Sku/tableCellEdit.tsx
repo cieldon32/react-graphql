@@ -12,8 +12,8 @@ import {
   } from 'antd';
 
 interface ContextValueType {
-  validateFields();
-  setFieldsValue(arg0: { [x: string]: any; });
+  validateFields: () => void;
+  setFieldsValue: (arg0: { [x: string]: any; }) => void;
 
 }
 
@@ -70,19 +70,19 @@ export const EditableCell: React.FC<EditableCellProps> = ({
     }
     const [editing, setEditing] = useState(true);
     const [values, setValues] = useState({});
-    const inputRef = useRef();
-    const form = useContext(EditableContext);
+    const inputRef: any = useRef();
+    const form: any = useContext(EditableContext);
 
     const toggleEdit = () => {
-      form.setFieldsValue({ [dataIndex]: values[dataIndex] || record[dataIndex] });
+      // form.setFieldsValue({ [dataIndex]: values[dataIndex] || record[dataIndex] });
     };
 
-    const save = async e => {
+    const save = async (e: any) => {
       try {
         const values = await form.validateFields();
         setValues(values);
         toggleEdit();
-        handleSave({ ...record, ...values });
+        // handleSave({ ...record, ...values });
       } catch (errInfo) {
         console.log('Save failed:', errInfo);
       }
@@ -120,7 +120,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
         </Form.Item>
       ) : (
         <div style={{ paddingRight: 24}} onClick={toggleEdit}>
-          {values[dataIndex] || record[dataIndex] || children}
+          {/* {values[dataIndex] || record[dataIndex] || children} */}
         </div>
       );
     }

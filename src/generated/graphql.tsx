@@ -36,6 +36,36 @@ export type PropertyValue = {
   propertyValueId?: Maybe<Scalars['ID']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addPropertyName?: Maybe<Array<PropertyName>>;
+  deletePropertyName?: Maybe<Array<PropertyName>>;
+  addPropertyValue?: Maybe<Array<PropertyValue>>;
+  deletePropertyValue?: Maybe<Array<PropertyValue>>;
+};
+
+
+export type MutationAddPropertyNameArgs = {
+  propertyName?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeletePropertyNameArgs = {
+  propertyId?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationAddPropertyValueArgs = {
+  propertyId?: Maybe<Scalars['ID']>;
+  propertyValue?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeletePropertyValueArgs = {
+  propertyId?: Maybe<Scalars['ID']>;
+  propertyValueId?: Maybe<Scalars['ID']>;
+};
+
 export enum Fake__Locale {
   Az = 'az',
   Cz = 'cz',
@@ -217,10 +247,10 @@ export type Fake__Options = {
 };
 
 
-export type PropertyNameQueryVariables = {};
+export type PropertyNamesQueryVariables = {};
 
 
-export type PropertyNameQuery = (
+export type PropertyNamesQuery = (
   { __typename?: 'Query' }
   & { propertyNames?: Maybe<Array<(
     { __typename?: 'PropertyName' }
@@ -228,10 +258,36 @@ export type PropertyNameQuery = (
   )>> }
 );
 
-export type PropertyValueQueryVariables = {};
+export type AddPropertyNameMutationVariables = {
+  input?: Maybe<Scalars['String']>;
+};
 
 
-export type PropertyValueQuery = (
+export type AddPropertyNameMutation = (
+  { __typename?: 'Mutation' }
+  & { addPropertyName?: Maybe<Array<(
+    { __typename?: 'PropertyName' }
+    & Pick<PropertyName, 'propertyId' | 'propertyName'>
+  )>> }
+);
+
+export type DeletePropertyNameMutationVariables = {
+  input?: Maybe<Scalars['ID']>;
+};
+
+
+export type DeletePropertyNameMutation = (
+  { __typename?: 'Mutation' }
+  & { deletePropertyName?: Maybe<Array<(
+    { __typename?: 'PropertyName' }
+    & Pick<PropertyName, 'propertyId' | 'propertyName'>
+  )>> }
+);
+
+export type PropertyValuesQueryVariables = {};
+
+
+export type PropertyValuesQuery = (
   { __typename?: 'Query' }
   & { propertyValues?: Maybe<Array<(
     { __typename?: 'PropertyValue' }
@@ -239,9 +295,37 @@ export type PropertyValueQuery = (
   )>> }
 );
 
+export type AddPropertyValueMutationVariables = {
+  input1?: Maybe<Scalars['ID']>;
+  input2?: Maybe<Scalars['String']>;
+};
 
-export const PropertyNameDocument = gql`
-    query propertyName {
+
+export type AddPropertyValueMutation = (
+  { __typename?: 'Mutation' }
+  & { addPropertyValue?: Maybe<Array<(
+    { __typename?: 'PropertyValue' }
+    & Pick<PropertyValue, 'propertyId' | 'propertyValue' | 'propertyValueId'>
+  )>> }
+);
+
+export type DeletePropertyValueMutationVariables = {
+  input1?: Maybe<Scalars['ID']>;
+  input2?: Maybe<Scalars['ID']>;
+};
+
+
+export type DeletePropertyValueMutation = (
+  { __typename?: 'Mutation' }
+  & { deletePropertyValue?: Maybe<Array<(
+    { __typename?: 'PropertyValue' }
+    & Pick<PropertyValue, 'propertyId' | 'propertyValue' | 'propertyValueId'>
+  )>> }
+);
+
+
+export const PropertyNamesDocument = gql`
+    query propertyNames {
   propertyNames {
     propertyId
     propertyName
@@ -250,31 +334,97 @@ export const PropertyNameDocument = gql`
     `;
 
 /**
- * __usePropertyNameQuery__
+ * __usePropertyNamesQuery__
  *
- * To run a query within a React component, call `usePropertyNameQuery` and pass it any options that fit your needs.
- * When your component renders, `usePropertyNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePropertyNamesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePropertyNamesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePropertyNameQuery({
+ * const { data, loading, error } = usePropertyNamesQuery({
  *   variables: {
  *   },
  * });
  */
-export function usePropertyNameQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PropertyNameQuery, PropertyNameQueryVariables>) {
-        return ApolloReactHooks.useQuery<PropertyNameQuery, PropertyNameQueryVariables>(PropertyNameDocument, baseOptions);
+export function usePropertyNamesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PropertyNamesQuery, PropertyNamesQueryVariables>) {
+        return ApolloReactHooks.useQuery<PropertyNamesQuery, PropertyNamesQueryVariables>(PropertyNamesDocument, baseOptions);
       }
-export function usePropertyNameLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PropertyNameQuery, PropertyNameQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<PropertyNameQuery, PropertyNameQueryVariables>(PropertyNameDocument, baseOptions);
+export function usePropertyNamesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PropertyNamesQuery, PropertyNamesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PropertyNamesQuery, PropertyNamesQueryVariables>(PropertyNamesDocument, baseOptions);
         }
-export type PropertyNameQueryHookResult = ReturnType<typeof usePropertyNameQuery>;
-export type PropertyNameLazyQueryHookResult = ReturnType<typeof usePropertyNameLazyQuery>;
-export type PropertyNameQueryResult = ApolloReactCommon.QueryResult<PropertyNameQuery, PropertyNameQueryVariables>;
-export const PropertyValueDocument = gql`
-    query propertyValue {
+export type PropertyNamesQueryHookResult = ReturnType<typeof usePropertyNamesQuery>;
+export type PropertyNamesLazyQueryHookResult = ReturnType<typeof usePropertyNamesLazyQuery>;
+export type PropertyNamesQueryResult = ApolloReactCommon.QueryResult<PropertyNamesQuery, PropertyNamesQueryVariables>;
+export const AddPropertyNameDocument = gql`
+    mutation addPropertyName($input: String) {
+  addPropertyName(propertyName: $input) {
+    propertyId
+    propertyName
+  }
+}
+    `;
+export type AddPropertyNameMutationFn = ApolloReactCommon.MutationFunction<AddPropertyNameMutation, AddPropertyNameMutationVariables>;
+
+/**
+ * __useAddPropertyNameMutation__
+ *
+ * To run a mutation, you first call `useAddPropertyNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPropertyNameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPropertyNameMutation, { data, loading, error }] = useAddPropertyNameMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddPropertyNameMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddPropertyNameMutation, AddPropertyNameMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddPropertyNameMutation, AddPropertyNameMutationVariables>(AddPropertyNameDocument, baseOptions);
+      }
+export type AddPropertyNameMutationHookResult = ReturnType<typeof useAddPropertyNameMutation>;
+export type AddPropertyNameMutationResult = ApolloReactCommon.MutationResult<AddPropertyNameMutation>;
+export type AddPropertyNameMutationOptions = ApolloReactCommon.BaseMutationOptions<AddPropertyNameMutation, AddPropertyNameMutationVariables>;
+export const DeletePropertyNameDocument = gql`
+    mutation deletePropertyName($input: ID) {
+  deletePropertyName(propertyId: $input) {
+    propertyId
+    propertyName
+  }
+}
+    `;
+export type DeletePropertyNameMutationFn = ApolloReactCommon.MutationFunction<DeletePropertyNameMutation, DeletePropertyNameMutationVariables>;
+
+/**
+ * __useDeletePropertyNameMutation__
+ *
+ * To run a mutation, you first call `useDeletePropertyNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePropertyNameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePropertyNameMutation, { data, loading, error }] = useDeletePropertyNameMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeletePropertyNameMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeletePropertyNameMutation, DeletePropertyNameMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeletePropertyNameMutation, DeletePropertyNameMutationVariables>(DeletePropertyNameDocument, baseOptions);
+      }
+export type DeletePropertyNameMutationHookResult = ReturnType<typeof useDeletePropertyNameMutation>;
+export type DeletePropertyNameMutationResult = ApolloReactCommon.MutationResult<DeletePropertyNameMutation>;
+export type DeletePropertyNameMutationOptions = ApolloReactCommon.BaseMutationOptions<DeletePropertyNameMutation, DeletePropertyNameMutationVariables>;
+export const PropertyValuesDocument = gql`
+    query propertyValues {
   propertyValues(propertyId: 1) {
     propertyId
     propertyValue
@@ -284,26 +434,96 @@ export const PropertyValueDocument = gql`
     `;
 
 /**
- * __usePropertyValueQuery__
+ * __usePropertyValuesQuery__
  *
- * To run a query within a React component, call `usePropertyValueQuery` and pass it any options that fit your needs.
- * When your component renders, `usePropertyValueQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePropertyValuesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePropertyValuesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePropertyValueQuery({
+ * const { data, loading, error } = usePropertyValuesQuery({
  *   variables: {
  *   },
  * });
  */
-export function usePropertyValueQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PropertyValueQuery, PropertyValueQueryVariables>) {
-        return ApolloReactHooks.useQuery<PropertyValueQuery, PropertyValueQueryVariables>(PropertyValueDocument, baseOptions);
+export function usePropertyValuesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PropertyValuesQuery, PropertyValuesQueryVariables>) {
+        return ApolloReactHooks.useQuery<PropertyValuesQuery, PropertyValuesQueryVariables>(PropertyValuesDocument, baseOptions);
       }
-export function usePropertyValueLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PropertyValueQuery, PropertyValueQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<PropertyValueQuery, PropertyValueQueryVariables>(PropertyValueDocument, baseOptions);
+export function usePropertyValuesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PropertyValuesQuery, PropertyValuesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PropertyValuesQuery, PropertyValuesQueryVariables>(PropertyValuesDocument, baseOptions);
         }
-export type PropertyValueQueryHookResult = ReturnType<typeof usePropertyValueQuery>;
-export type PropertyValueLazyQueryHookResult = ReturnType<typeof usePropertyValueLazyQuery>;
-export type PropertyValueQueryResult = ApolloReactCommon.QueryResult<PropertyValueQuery, PropertyValueQueryVariables>;
+export type PropertyValuesQueryHookResult = ReturnType<typeof usePropertyValuesQuery>;
+export type PropertyValuesLazyQueryHookResult = ReturnType<typeof usePropertyValuesLazyQuery>;
+export type PropertyValuesQueryResult = ApolloReactCommon.QueryResult<PropertyValuesQuery, PropertyValuesQueryVariables>;
+export const AddPropertyValueDocument = gql`
+    mutation addPropertyValue($input1: ID, $input2: String) {
+  addPropertyValue(propertyId: $input1, propertyValue: $input2) {
+    propertyId
+    propertyValue
+    propertyValueId
+  }
+}
+    `;
+export type AddPropertyValueMutationFn = ApolloReactCommon.MutationFunction<AddPropertyValueMutation, AddPropertyValueMutationVariables>;
+
+/**
+ * __useAddPropertyValueMutation__
+ *
+ * To run a mutation, you first call `useAddPropertyValueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPropertyValueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPropertyValueMutation, { data, loading, error }] = useAddPropertyValueMutation({
+ *   variables: {
+ *      input1: // value for 'input1'
+ *      input2: // value for 'input2'
+ *   },
+ * });
+ */
+export function useAddPropertyValueMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddPropertyValueMutation, AddPropertyValueMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddPropertyValueMutation, AddPropertyValueMutationVariables>(AddPropertyValueDocument, baseOptions);
+      }
+export type AddPropertyValueMutationHookResult = ReturnType<typeof useAddPropertyValueMutation>;
+export type AddPropertyValueMutationResult = ApolloReactCommon.MutationResult<AddPropertyValueMutation>;
+export type AddPropertyValueMutationOptions = ApolloReactCommon.BaseMutationOptions<AddPropertyValueMutation, AddPropertyValueMutationVariables>;
+export const DeletePropertyValueDocument = gql`
+    mutation deletePropertyValue($input1: ID, $input2: ID) {
+  deletePropertyValue(propertyId: $input1, propertyValueId: $input2) {
+    propertyId
+    propertyValue
+    propertyValueId
+  }
+}
+    `;
+export type DeletePropertyValueMutationFn = ApolloReactCommon.MutationFunction<DeletePropertyValueMutation, DeletePropertyValueMutationVariables>;
+
+/**
+ * __useDeletePropertyValueMutation__
+ *
+ * To run a mutation, you first call `useDeletePropertyValueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePropertyValueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePropertyValueMutation, { data, loading, error }] = useDeletePropertyValueMutation({
+ *   variables: {
+ *      input1: // value for 'input1'
+ *      input2: // value for 'input2'
+ *   },
+ * });
+ */
+export function useDeletePropertyValueMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeletePropertyValueMutation, DeletePropertyValueMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeletePropertyValueMutation, DeletePropertyValueMutationVariables>(DeletePropertyValueDocument, baseOptions);
+      }
+export type DeletePropertyValueMutationHookResult = ReturnType<typeof useDeletePropertyValueMutation>;
+export type DeletePropertyValueMutationResult = ApolloReactCommon.MutationResult<DeletePropertyValueMutation>;
+export type DeletePropertyValueMutationOptions = ApolloReactCommon.BaseMutationOptions<DeletePropertyValueMutation, DeletePropertyValueMutationVariables>;

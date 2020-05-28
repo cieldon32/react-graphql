@@ -40,7 +40,7 @@ export default function AReactTable({
 
     return {
       ...col,
-      onCell: record => {
+      onCell: (record: any) => {
         const editable = () => {
           if(typeof col.editable === 'boolean'){
             return col.editable;

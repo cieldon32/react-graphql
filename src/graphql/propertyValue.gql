@@ -1,7 +1,23 @@
-query propertyValue {
-  propertyValues(propertyId: 1) {
+query propertyValues($input: ID!) {
+  propertyValues(propertyId: $input) {
     propertyId
     propertyValue
+    propertyValueId
+  }
+}
+
+mutation addPropertyValue($input1: ID!, $input2: String!){
+  addPropertyValue(propertyId: $input1, propertyValue: $input2) {
+    propertyId,
+    propertyValue,
+    propertyValueId
+  }
+}
+
+mutation deletePropertyValue($input1: ID!, $input2: ID!){
+  deletePropertyValue(propertyId: $input1, propertyValueId: $input2) {
+    propertyId,
+    propertyValue,
     propertyValueId
   }
 }

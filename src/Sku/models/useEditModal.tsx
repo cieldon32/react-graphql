@@ -1,11 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { Form, Button, Modal, Input } from 'antd';
 
+interface Props {
+  title: string;
+  value: any;
+  onOk: (v: any) => void;
+  onChange: (v: any) => void;
+}
 
 export const useEditModal = () => {
 
-  const showModal = ({title, value, onOk, onChange}) => {
-    const change = (e) => {
+  const showModal = ({title, value, onOk, onChange}: Props) => {
+    const change = (e: any) => {
       onChange(e.target.value);
       value = e.target.value;
     }

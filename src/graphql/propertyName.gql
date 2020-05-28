@@ -1,6 +1,20 @@
-query propertyName {
+query propertyNames {
   propertyNames {
     propertyId
     propertyName
   }
 }
+mutation addPropertyName($input: String!){
+  addPropertyName(propertyName: $input) {
+    propertyId,
+    propertyName
+  }
+}
+
+mutation deletePropertyName($input: ID!){
+  deletePropertyName(propertyId: $input) {
+    propertyId,
+    propertyName
+  }
+}
+

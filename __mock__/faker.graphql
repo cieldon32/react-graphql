@@ -26,3 +26,10 @@ type Query {
   propertyNames: [PropertyName!]
   propertyValues(propertyId: ID): [PropertyValue!]
 }
+
+type Mutation {
+  addPropertyName(propertyName: String): [PropertyName!]
+  deletePropertyName(propertyId: ID): [PropertyName!]
+  addPropertyValue(propertyId: ID, propertyValue: String): [PropertyValue!]
+  deletePropertyValue(propertyId: ID, propertyValueId: ID): [PropertyValue!]
+}
