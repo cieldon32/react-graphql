@@ -1,0 +1,6 @@
+query propertyName {
+  propertyNames {
+    propertyId
+    propertyName
+  }
+}

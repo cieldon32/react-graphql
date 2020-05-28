@@ -1,0 +1,17 @@
+.detail-form{
+  .detail-form-title{
+    background: #f8f8f8;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .detail-form-close{
+    position: absolute;
+    top: -4px;
+    right: -4px;
+  }
+}

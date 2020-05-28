@@ -1,0 +1,7 @@
+query propertyValue {
+  propertyValues(propertyId: 1) {
+    propertyId
+    propertyValue
+    propertyValueId
+  }
+}

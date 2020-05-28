@@ -1,0 +1,57 @@
+{
+  "name": "react-graphql",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.0.0-beta.50",
+    "@apollo/link-context": "^2.0.0-beta.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "antd": "^4.2.5",
+    "graphql": "^15.0.0",
+    "node-sass": "^4.14.1",
+    "ramda": "^0.27.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "mock": "graphql-faker ./__mock__/faker.graphql -p 8001",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.15.0",
+    "@graphql-codegen/introspection": "^1.15.0",
+    "@graphql-codegen/typescript": "^1.15.0",
+    "@graphql-codegen/typescript-operations": "^1.15.0",
+    "@graphql-codegen/typescript-react-apollo": "^1.15.0",
+    "@types/ramda": "^0.27.6",
+    "graphql-faker": "^2.0.0-rc.19",
+    "ts-node": "^8.10.1"
+  }
+}
