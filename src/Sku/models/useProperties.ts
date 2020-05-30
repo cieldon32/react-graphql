@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import * as R from 'ramda';
 import { usePropertyNamesQuery, usePropertyValuesQuery, useAddNameMutation, useAddValueMutation } from '../../generated/graphql';
-// import checkHasProperty from '../../utils/checkHasProperty';
 import {Property, PropertyName, PropertyValue, PropertyItem, SelectLabel, SelectOption} from '../common.interface';
 
 export const useProperties = () => {
@@ -129,7 +128,7 @@ export const useProperties = () => {
     index: number
   ) => {
     if(R.type(index) === 'Number') {
-      properties[index].propertyValues = propertyValues;
+      properties[index].propertyValues = propertyValues || [];
       setProperties([...properties]);
     }
   });

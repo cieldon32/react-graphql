@@ -4,7 +4,6 @@ import { PlusOutlined } from '@ant-design/icons';
 import * as R from 'ramda';
 import DetailFormProperties from './DetailFormProperties';
 import DetailFormSku from './DetailFormSkuTable';
-import {useSkuList} from './models/useSkuList';
 import {useGoodContext} from './index.provider';
 import './DetailForm.scss';
 
@@ -21,7 +20,6 @@ const DetailFormSKUs: React.FC<IProps> = ({name = ''}) => {
     updateProperties
   } = useGoodContext();
 
-  console.log('skus', skus)
 
   return (
     <Form.List name={name}>

@@ -6,7 +6,7 @@ import {
   ApolloProvider,
 } from "@apollo/client";
 import { setContext } from "@apollo/link-context";
-import Sku from './Sku/';
+import Sku from './sku';
 import './App.css';
 
 const authLink = setContext((_, { headers }) => {
