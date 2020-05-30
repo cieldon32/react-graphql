@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import * as R from 'ramda';
 import { Select } from 'antd';
-import {Property, Option} from './models/useProperties'
+import {SelectOption} from './common.interface'
 import './DetailForm.scss';
 
 interface IProps {
   value: any;
-  dataSource: Property[];
+  dataSource: SelectOption[];
   onChange?: (v: any, options: any) => void;
   onFocus?: () => any;
   notFoundContent: any;
@@ -22,31 +22,14 @@ const TagSelect: React.FC<IProps> = ({
   value : v
 }) => {
   const [value, setValue] = useState<string[]>([]);
-  const [list, setList] = useState<Option[]>([]);
+  const [list, setList] = useState<SelectOption[]>([]);
 
-  const init = (value: unknown, dataSource: Property[]) => {
+  const init = (value: unknown, dataSource: SelectOption[]) => {
+    setList(dataSource);
     if(value){
       const tagsValue: string[] = R.map(R.prop('propertyValueId'), value);
       setValue(tagsValue);
     }
-    // if(value && dataSource.length === 0){
-    //   const list: Option[] = R.map((item: Property) => {
-    //     return {
-    //       value: item.propertyValueId,
-    //       label: item.propertyValue
-    //     }
-    //   }, value);
-    //   setList(list)
-    // }
-    // if(dataSource.length > 0) {
-    //   const list: Option[] = R.map((item: Property) => {
-    //     return {
-    //       value: item.propertyValueId,
-    //       label: item.propertyValue
-    //     }
-    //   }, dataSource);
-    //   setList(list);
-    // }
   }
 
   useEffect(() => {

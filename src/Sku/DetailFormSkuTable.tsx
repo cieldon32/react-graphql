@@ -3,7 +3,7 @@ import { Form } from 'antd';
 import DetailFormSkuSummary from './DetailFormSkuSummary';
 import AReactTable from './table';
 import {useGoodContext} from './index.provider';
-import {PropertyItem} from './models/useProperties';
+import {PropertyItem} from './common.interface';
 import './DetailForm.scss';
 
 interface IProps {

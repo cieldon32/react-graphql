@@ -50,8 +50,10 @@
     "@graphql-codegen/typescript": "^1.15.0",
     "@graphql-codegen/typescript-operations": "^1.15.0",
     "@graphql-codegen/typescript-react-apollo": "^1.15.0",
+    "@types/http-proxy-middleware": "^0.19.3",
     "@types/ramda": "^0.27.6",
     "graphql-faker": "^2.0.0-rc.19",
+    "http-proxy-middleware": "^1.0.4",
     "ts-node": "^8.10.1"
   }
 }

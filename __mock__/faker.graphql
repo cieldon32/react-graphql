@@ -27,9 +27,14 @@ type Query {
   propertyValues(propertyId: ID): [PropertyValue!]
 }
 
+type MutationResponse {
+  success: Boolean @examples(values: [true, false])
+  message: String @examples(values: ["", "mutation failed"])
+}
+
 type Mutation {
-  addPropertyName(propertyName: String): [PropertyName!]
-  deletePropertyName(propertyId: ID): [PropertyName!]
-  addPropertyValue(propertyId: ID, propertyValue: String): [PropertyValue!]
-  deletePropertyValue(propertyId: ID, propertyValueId: ID): [PropertyValue!]
+  addPropertyName(propertyName: String): MutationResponse
+  deletePropertyName(propertyId: ID): MutationResponse
+  addPropertyValue(propertyId: ID, propertyValue: String): MutationResponse
+  deletePropertyValue(propertyId: ID, propertyValueId: ID): MutationResponse
 }

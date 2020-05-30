@@ -4,17 +4,17 @@ query propertyNames {
     propertyName
   }
 }
-mutation addPropertyName($input: String!){
-  addPropertyName(propertyName: $input) {
-    propertyId,
-    propertyName
+mutation addName($propertyName: String!){
+  addPropertyName(propertyName: $propertyName) {
+    success
+    message
   }
 }
 
-mutation deletePropertyName($input: ID!){
-  deletePropertyName(propertyId: $input) {
-    propertyId,
-    propertyName
+mutation deleteName($propertyId: ID!){
+  deletePropertyName(propertyId: $propertyId) {
+    success
+    message
   }
 }
 

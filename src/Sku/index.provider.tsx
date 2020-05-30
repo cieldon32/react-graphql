@@ -1,6 +1,7 @@
-import React, { useState, useContext, createContext } from 'react';
-import {useProperties, PropertyItem} from './models/useProperties';
+import React, { useState, useContext, createContext, useEffect } from 'react';
+import {useProperties} from './models/useProperties';
 import {useSkus} from './models/useSkus';
+import {PropertyItem} from './common.interface';
 
 export const GoodContext: any = createContext(null);
 export const useGoodContext: any = () => useContext(GoodContext);
@@ -10,16 +11,21 @@ interface Props {
   children: any
 }
 
+interface FormData {
+  skuList: any[];
+  propertiesLevels: any[];
+}
+
 export default ({ children }: Props) => {
   const {
     properties,
-    propertyNameList,
-    propertyValueList,
-    setPropertyId,
     initProperties,
     updatePropertiesByProperty,
-    // updatePropertiesByPropertyValues,
-    fetchPropertyNameList
+    updatePropertiesByPropertyValues,
+    fetchPropertyNameList,
+    fetchPropertyValusList,
+    addPropertyName,
+    addPropertyValue
   } = useProperties();
 
   const {
@@ -30,66 +36,40 @@ export default ({ children }: Props) => {
     updateSkusByProperties
   } = useSkus()
 
-  const [ isFetching, setIsFetching ] = useState(false);
   const [ cateArr, setCateArr ] = useState([]);
   const [ goodsId, setGoodsId ] = useState('');
-  const [ detailSource, setDetailSource ] = useState({});
   const [ isEditInit, toggleEditInit ] = useState(false);
 
-  const fetchPropertyValusList = (propertyId: string) => {
-    setPropertyId(propertyId)
+  const updateProperties = (newProperties: PropertyItem[]) => {
+    updateSkusByProperties(newProperties || []);
   }
 
-  // save a new propertyId
-  const savePropertyId = async (propertyName: string) => {
-    console.log('savePropertyId', propertyName)
-    // const res = await Api.savePropertyId({propertyId: propertyName, propertyName: propertyName});
-    // console.log('savePropertyId', res)
-    // return res;
-  }
-
-  const savePropertyValue = async (params: any) => {
-    // setIsFetching(true);
-    // const res = await Api.savePropertyValue(params);
-    // setIsFetching(false);
-    // return res;
-  }
-
-  const updateProperties = (newProperties: any) => {
-    // updateSkusByProperties(newProperties || properties);
-  }
-
-  const initDetailForm = (data: any) => {
-    // setDetailSource(data);
-    const {skuList, propertiesLevels} = data;
+  const initDetailForm = (data: FormData) => {
+    const {skuList=[], propertiesLevels=[]} = data;
     initProperties(propertiesLevels);
     initSkus(skuList);
-    // 编辑的时候，只有cateArr里面没有值的时候才会去初始化
-    // if (!cateArr.length) {
-    //   setCateArr(formatCateArr(data.categoryCode, data.categoryName))
-    // }
   }
+
+  useEffect(() => {
+    initDetailForm({} as FormData)
+  }, [])
 
 
   const configObject = {
-    propertyNameList,
-    propertyValueList,
     fetchPropertyNameList,
     fetchPropertyValusList,
-    savePropertyId,
-    savePropertyValue,
+    addPropertyName,
+    addPropertyValue,
     setCateArr,
     setGoodsId,
     initDetailForm,
     toggleEditInit,
-    isFetching,
     cateArr,
     goodsId,
-    detailSource,
     isEditInit,
     properties,
     updatePropertiesByProperty,
-    // updatePropertiesByPropertyValues,
+    updatePropertiesByPropertyValues,
     skus,
     updateSkusByPrices,
     updateSkusBySku,

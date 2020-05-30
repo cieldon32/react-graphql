@@ -20,7 +20,8 @@ const DetailFormSKUs: React.FC<IProps> = ({name = ''}) => {
     skus,
     updateProperties
   } = useGoodContext();
-  const {reduceSkuListforSubmit} = useSkuList();
+
+  console.log('skus', skus)
 
   return (
     <Form.List name={name}>
@@ -28,7 +29,6 @@ const DetailFormSKUs: React.FC<IProps> = ({name = ''}) => {
         const removeProperty = (index: number) => {
           const res = updatePropertiesByProperty(null)(index);
           if(res){
-            debugger;
             const newProperties = R.remove(index, 1, properties);
             updateProperties(newProperties);
             remove(index);
@@ -49,8 +49,6 @@ const DetailFormSKUs: React.FC<IProps> = ({name = ''}) => {
             <Form.Item
               wrapperCol={fields.length > 0 ? {offset: 2, span: 8} : {}}
               label={fields.length > 0 ? '' : '商品规格'}
-              rules={[]}
-              valuePropName="value"
 
             >
               <Button type="dashed" onClick={add}> <PlusOutlined /> 添加商品规格</Button>

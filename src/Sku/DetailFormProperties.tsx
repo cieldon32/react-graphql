@@ -5,7 +5,7 @@ import * as R from 'ramda';
 import SearchSelect from './SearchSelect';
 import TagSelect from './TagSelect';
 import {useGoodContext} from './index.provider';
-import {PropertyItem, Option, Property} from './models/useProperties';
+import {PropertyItem, SelectOption, Property, PropertyName} from './common.interface';
 import './DetailForm.scss';
 
 interface IProps {
@@ -16,102 +16,120 @@ interface IProps {
 }
 
 const DetailFormProperties: React.FC<IProps> = ({field, remove, onChange, dataSource}) => {
+  const [isFetching, setIsFetching] = useState(false);
   const [tags, setTags] = useState<Property[]>([]);
-  const [propertyValuesList, setPropertyValuesList] = useState<Property[]>([]);
-  const [propertyList, setPropertyList] = useState<Option[]>([]);
+  const [propertyNameOptions, setPropertyNameOptions] = useState<SelectOption[]>([])
+  const [propertyValuesOptions, setPropertyValuesOptions] = useState<SelectOption[]>([]);
   const [property, setProperty] = useState<PropertyItem>({} as PropertyItem);
   const {
-    isFetching,
     properties,
     fetchPropertyNameList,
     fetchPropertyValusList,
     updatePropertiesByProperty,
-    // updatePropertiesByPropertyValues,
-    savePropertyId,
-    savePropertyValue,
+    updatePropertiesByPropertyValues,
+    addPropertyName,
+    addPropertyValue,
     updateProperties,
     skus
   } = useGoodContext();
 
 
-  const changePropertyId = (v: Option) => {
-    debugger;
+  const changePropertyId = async (v: SelectOption) => {
     const res = updatePropertiesByProperty({value: v.value, label: v.children})(field.name);
-    // if(!res) {
-    //   message.error('不要重复规格');
-    // } else if(R.type(res) === 'String') {
-    //   addPropertyTopropertyList(res);
-    // } else {
-    //   updateProperties();
-    // }
+    const {success, message, propertyName} = res;
+    if(!success && !message){
+      message.error(message);
+    } else if (success && propertyName) {
+      addPropertyTopropertyList(propertyName);
+    } else {
+      updateProperties();
+    }
+    return success
   }
 
   const addPropertyTopropertyList = async (propertyName: string) => {
-    const res: any = await savePropertyId(propertyName);
-    // const {propertyId} = res;
-    // const property: Option = {value: propertyId, label: propertyName};
-    // const result = updatePropertiesByProperty(property)(field.name);
-    // if(result) {
-    //   updateProperties();
-    //   propertyList.push(property);
-    //   setPropertyList([...propertyList]);
-    //   setProperty({
-    //     propertyId,
-    //     propertyName
-    //   });
-    // }
+    const res: any = await addPropertyName(propertyName);
+    if(res.success){
+      // mock data cant return a new propertyId
+      const property: SelectOption = {value: propertyName, label: propertyName};
+      const result = updatePropertiesByProperty(property)(field.name);
+      if(result.success){
+        updateProperties();
+        propertyNameOptions.push(property);
+        setPropertyNameOptions([...propertyNameOptions]);
+        setProperty({
+          propertyId: propertyName,
+          propertyName
+        });
+      }
+    }
 
   }
 
-  const addPropertyValuesTopropertyValuesList = async (value: string) => {
-    // const res: any = await savePropertyValue({
-    //   propertyValue	: value,
-    //   propertyId: property.propertyId
-    // });
-    // const {propertyValueId, propertyValue} = res;
-    // const item :Property = {
-    //   propertyValueId,
-    //   propertyValue
-    // }
-
-    // propertyValuesList.push(item);
-    // setPropertyValuesList([...propertyValuesList]);
-    // tags.push(item);
-    // setTags([...tags]);
-    // updatePropertiesByPropertyValues(tags)(field.name);
-    // updateProperties();
+  const addPropertyValuesTopropertyValuesList = async (value: string | undefined) => {
+    const res = await addPropertyValue(value, property.propertyId);
+    console.log('addPropertyValuesTopropertyValuesList', res);
+    const {success, message : text} = res;
+    if(success){
+      const item: SelectOption = {
+        value: value || '',
+        label: value || ''
+      }
+      propertyValuesOptions.push(item);
+      setPropertyValuesOptions([...propertyValuesOptions]);
+      tags.push({
+        propertyId: property.propertyId,
+        propertyName: property.propertyName,
+        propertyValueId: value,
+        propertyValue: value
+      });
+      setTags([...tags]);
+      updatePropertiesByPropertyValues(tags)(field.name);
+    } else {
+      message.error(text);
+    }
   }
 
   const isEmpty = (list: unknown[]) => {
     return R.filter(R.isEmpty, list).length > 0;
   }
 
-  const changePropertyValues = (v: any[], options: Option[]) => {
-    // if(isEmpty(options)) {
-    //   addPropertyValuesTopropertyValuesList(R.last(v));
-    // }
-    // const values = R.map(item => {
-    //   return {
-    //     propertyValueId: item.value,
-    //     propertyValue: item.children
-    //   }
-    // }, options);
-    // updatePropertiesByPropertyValues(values)(field.name);
-    // updateProperties();
+  const changePropertyValues = (v: string[], options: SelectOption[]) => {
+    if(isEmpty(options)) {
+      const propertyValue: string | undefined = R.last(v)
+      addPropertyValuesTopropertyValuesList(propertyValue);
+    }
+    const values = R.map(item => {
+      return {
+        propertyValueId: item.value,
+        propertyValue: item.children
+      }
+    }, options);
+    updatePropertiesByPropertyValues(values)(field.name);
+    updateProperties();
   }
 
   const onFocusProperty = async () => {
-    if(propertyList.length === 0){
-      fetchPropertyNameList();
+    if(propertyNameOptions.length === 0){
+      setIsFetching(true);
+      const res = await fetchPropertyNameList();
+      const {list} = res;
+      if(list !== propertyNameOptions) {
+        setPropertyNameOptions(list);
+      }
+      setIsFetching(false);
     }
   }
 
   const onFocusPropertyValues = async () => {
-    const propertyId : PropertyItem = property && property;
-    if(propertyValuesList.length === 0 && propertyId.propertyId){
-      const res = await fetchPropertyValusList(propertyId.propertyId);
-      setPropertyValuesList(res);
+    setIsFetching(true);
+    const propertyId = property.propertyId;
+    const res = await fetchPropertyValusList(propertyId);
+    const {list} = res;
+    if(list !== propertyValuesOptions) {
+      setPropertyValuesOptions(list)
     }
+    setIsFetching(false);
   }
 
   const init = (properties: any) => {
@@ -134,7 +152,7 @@ const DetailFormProperties: React.FC<IProps> = ({field, remove, onChange, dataSo
       required={false}
     >
       <SearchSelect
-        dataSource={propertyList}
+        dataSource={propertyNameOptions}
         notFoundContent={isFetching && <Spin size="small" />}
         onChange={changePropertyId}
         onFocus={onFocusProperty}
@@ -166,7 +184,7 @@ const DetailFormProperties: React.FC<IProps> = ({field, remove, onChange, dataSo
         >
           <TagSelect
             value={tags}
-            dataSource={propertyValuesList}
+            dataSource={propertyValuesOptions}
             disabled={!property}
             notFoundContent={isFetching && <Spin size="small" />}
             onChange={changePropertyValues}

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ReactDOM from 'react-dom';
-import { Form, Button, Modal, Input } from 'antd';
+import { Form, Modal, Input } from 'antd';
 import {useEditModal} from './useEditModal';
 
 interface Props {

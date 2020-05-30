@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Select } from 'antd';
 import * as R from 'ramda';
+import {PropertyItem, SelectOption} from './common.interface';
 import './DetailForm.scss';
-
 
 const { Option } = Select;
 
-interface ListItem {
-  value: string;
-  label: string;
-}
-
 interface IProps {
-  value: any;
-  dataSource: ListItem[];
-  onChange?: (v: any) => any;
+  value: PropertyItem;
+  dataSource: SelectOption[];
+  onChange: (v: SelectOption) => any;
   onFocus?: () => any;
   onAdd?: (v: any) => any;
   notFoundContent: any;
@@ -28,48 +23,48 @@ const SearchSelect: React.FC<IProps> = ({
   value : v
 }) => {
   const [value, setValue] = useState('');
-  const [list, setList] = useState([]);
-  const [searchList, setSearchList] = useState([]);
+  const [list, setList] = useState<SelectOption[]>([]);
+  const [searchList, setSearchList] = useState<SelectOption[]>([]);
 
 
   const onSearch = (v: string) => {
-    // const hasOne = R.find(R.propEq('label', v))(list);
-    // if(!hasOne && R.trim(v) != ''){
-    //   const newList = [...list, {
-    //     value: v,
-    //     label: v
-    //   }];
-    //   const newSearchList = [...searchList, {
-    //     value: v,
-    //     label: v
-    //   }];
-    //   setList(newList);
-    //   setSearchList(newSearchList);
-    // }
+    const hasOne = R.find(R.propEq('label', v))(list);
+    if(!hasOne && R.trim(v) != ''){
+      const newList = [...list, {
+        value: v,
+        label: v
+      }];
+      const newSearchList = [...searchList, {
+        value: v,
+        label: v
+      }];
+      setList(newList);
+      setSearchList(newSearchList);
+    }
 
   }
 
-  const onSelect = (v: any, option: any) => {
-    // const newList = R.difference(list, searchList);
-    // const hasOne = R.find(R.propEq('value', v))(list);
-    // if(searchList.length > 0) {
-    //   const newItem = {
-    //     value: v,
-    //     label: option.children || option.value
-    //   }
-    //   if(!hasOne){
-    //     newList.unshift(newItem);
-    //   }
+  const onSelect = async (v: string, option: any) => {
+    const newList = R.difference(list, searchList);
+    const hasOne = R.find(R.propEq('value', v))(list);
+    if(searchList.length > 0) {
+      const newItem = {
+        value: v,
+        label: option.children || option.value
+      }
+      if(!hasOne){
+        newList.unshift(newItem);
+      }
 
-    // }
-    // setList(newList);
-    // setSearchList([]);
-    // const res = onChange && onChange(option);
-    // if(!res){
-    //   setValue('')
-    // } else {
-    //   setValue(v)
-    // }
+    }
+    setList(newList);
+    setSearchList([]);
+    const res = await onChange(option);
+    if(!res){
+      setValue('')
+    } else {
+      setValue(v)
+    }
   }
 
   const onBlur = () => {
@@ -84,28 +79,28 @@ const SearchSelect: React.FC<IProps> = ({
     // }
   }
 
-  const init = (value: any, dataSource: any) => {
-    // if(value){
-    //   setValue(v.propertyId);
-    // }
-    // dataSource = dataSource.length > 0 ? dataSource : [];
-    // if(value && dataSource.length === 0){
-    //   dataSource = [{
-    //     value: value.propertyId,
-    //     label: value.propertyName
-    //   }];
-    // }
-    // setList(dataSource);
+  const init = (value: PropertyItem, dataSource: SelectOption[]) => {
+    if(value){
+      setValue(value.propertyId);
+    }
+    dataSource = dataSource.length > 0 ? dataSource : [];
+    if(value && dataSource.length === 0){
+      dataSource = [{
+        value: value.propertyId,
+        label: value.propertyName
+      }];
+    }
+    setList(dataSource);
   }
 
-  // useEffect(() => {
-    // init(v, dataSource);
-  // }, [dataSource, v]);
+  useEffect(() => {
+    init(v, dataSource);
+  }, [dataSource, v]);
 
   return (
     <Select
       showSearch
-      placeholder="请选择"
+      placeholder="Please select one..."
       value={value}
       optionFilterProp="children"
       notFoundContent={notFoundContent}
